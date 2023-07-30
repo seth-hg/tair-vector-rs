@@ -1,0 +1,25 @@
+[package]
+name = "tair-vector-rs"
+version = "0.1.0"
+edition = "2021"
+homepage = "https://github.com/seth-hg/tair-vector-rs"
+repository = "https://github.com/seth-hg/tair-vector-rs"
+
+[dependencies]
+redis = { version = "0.23.0" }
+ndarray = { version = "0.15.6", optional = true }
+rayon = { version = "1.7.0", optional = true }
+
+[dev-dependencies]
+ndarray-rand = "0.14.0"
+rand = "0.8.5"
+tokio = { version = "1.29.1", features = ["rt", "macros", "rt-multi-thread"] }
+futures = "0.3.28"
+
+[features]
+default = ["aio"]
+aio = ["redis/aio", "redis/tokio-comp"]
+tokio-comp = ["aio", "redis/tokio-comp"]
+async-std-comp = ["aio", "redis/async-std-comp"]
+ndarray = ["dep:ndarray"]
+bulk = ["ndarray", "dep:rayon", "ndarray/rayon"]
